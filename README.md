@@ -1,6 +1,3 @@
-# Let's create a README file with the provided content
-
-readme_content = """
 # **MicroShop - A Microservices-Based E-Commerce Backend**
 
 **MicroShop** is a scalable backend application for e-commerce, built using Node.js, Express, and MongoDB. This project follows a microservices architecture, splitting the system into three distinct services: Product Service, User Service, and Order Service.
