@@ -10,13 +10,6 @@ readme_content = """
 - [Architecture](#architecture)
 - [Services Overview](#services-overview)
 - [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Environment Variables](#environment-variables)
-- [Running the Services](#running-the-services)
-- [API Endpoints](#api-endpoints)
-- [Testing](#testing)
-- [Docker Setup](#docker-setup)
-- [License](#license)
 
 ## **Features**
 
