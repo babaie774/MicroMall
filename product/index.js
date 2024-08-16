@@ -1,7 +1,7 @@
 const express = require('express');
 // const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-// const productRoutes = require('./routes/productRoutes');
+const product = require('./routes/product');
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.use(express.json());
 //   .then(() => console.log('Connected to MongoDB'))
 //   .catch(err => console.error('Could not connect to MongoDB...', err));
 
-// app.use('/products', productRoutes);
+app.use('/', product);
 
 app.listen(port, () => {
   console.log(`Product Service is listening on port ${port}`);

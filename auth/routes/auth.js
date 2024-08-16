@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// @desc Create a new order (JWT protected)
-// @route GET /orders
+// @desc Register a new user
+// @route GET /Login
 // @access Public
-router.get('/orders', async (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         // const products = await Product.find();
         res.status(200).send([]);
@@ -14,9 +14,9 @@ router.get('/orders', async (req, res) => {
 })
 
 // @desc Get all orders for the authenticated user (JWT protected)
-// @route POST /orders
+// @route POST /logout
 // @access Public
-router.post('/orders', async (req, res) => {
+router.post('/logout', async (req, res) => {
     const userId = req.params.id;
 
     try {
