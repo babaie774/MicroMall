@@ -1,7 +1,7 @@
 const express = require('express');
 // const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth');
+const auth = require('./routes/auth');
 
 dotenv.config();
 
@@ -14,7 +14,7 @@ app.use(express.json());
 //     .then(() => console.log('Connected to MongoDB'))
 //     .catch(err => console.error('Could not connect to MongoDB...', err));
 
-app.use('/', authRoutes);
+app.use('/', auth);
 
 app.listen(port, () => {
     console.log(`Auth Service is listening on port ${port}`);
