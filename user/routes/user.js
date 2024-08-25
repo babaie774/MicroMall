@@ -32,7 +32,9 @@
 
 
 const express = require('express');
-const { getUsers } = require('../controllers/user');
+const { getUsers, getUser, createUser } = require('../controllers/user');
+const advancedResults = require('../middleware/advancedResults');
+const user = require('../models/user');
 
 // const User = require('../models/User')
 
@@ -41,11 +43,11 @@ const router = express.Router({ mergeParams: true });
 // @desc Get users
 // @route GET /users
 // @access private
-router.route('/getUsers').get(getUsers)
+router.route('/user').get(advancedResults(user), getUsers).post(createUser)
 
 // @desc Get user (JWT protected)
 // @route GET /user
 // @access private
-// router.route('/getUser/:id').get(getUser)
+router.route('/user/:id').get(getUser)
 
 module.exports = router;
