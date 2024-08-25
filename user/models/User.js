@@ -113,54 +113,58 @@
 // module.exports = mongoose.model('User', UserSchema);
 
 
-const UserSchema = new mongoose.UserSchema({
+const mongoose = require('mongoose');
+// const bcrypt = require('bcryptjs'); // Ensure bcrypt is imported
+
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please add an email']
+    required: [true, 'Please add a name'],
   },
   email: {
     type: String,
     required: [true, 'Please add an email'],
     unique: true,
-    match: ['/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/', 'Please add a valid email'],
-    role: {
-      type: String,
-      enum: ['user', 'publisher'],
-      default: 'user'
-    },
-    password: {
-      type: String,
-      required: [true, 'Please add a password'],
-      minlength: 6,
-      select: false
-    },
-    resetPasswordToken: true,
-    resetPasswordExpire: Date,
-    confirmEmailToken: String,
-    isEmailConfirm: {
-      type: Boolean,
-      default: false,
-    },
-    twoFactorCode: String,
-    twoFactorCodeExpire: Date,
-    twoFactorEnable: {
-      type: Boolean,
-      default: false,
-    },
-    createAt: {
-      type: Date,
-      default: Date.now
-    }
+    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please add a valid email']
+  },
+  role: {
+    type: String,
+    enum: ['user', 'publisher'],
+    default: 'user'
+  },
+  password: {
+    type: String,
+    required: [true, 'Please add a password'],
+    minlength: 6,
+    select: false
+  },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  confirmEmailToken: String,
+  isEmailConfirm: {
+    type: Boolean,
+    default: false,
+  },
+  twoFactorCode: String,
+  twoFactorCodeExpire: Date,
+  twoFactorEnable: {
+    type: Boolean,
+    default: false,
+  },
+  createAt: {
+    type: Date,
+    default: Date.now
   }
-})
+});
 
+// UserSchema.pre('save', async function (next) {
+//   if (!this.isModified('password')) {
+//     next();
+//   }
 
-UserSchema.pre('save', async function (next) {
-  if (!this.insModified('password')) {
-    next();
-  }
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 
-  const salt = await bcrypt.getSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-})
-module.export = mongoose('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
