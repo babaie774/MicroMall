@@ -77,16 +77,16 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     if (!user) {
         res.status(404).json({
             success: false,
-            data: 'User not found'
+            massage: 'User not found'
         })
     }
 
-    res.status(200).json({ massage: 'User delete successfully', userId: user._id })
+    res.status(200).json({ success: true, userId: user._id })
 
     next(err => {
         res.status(500).json({
             success: false,
-            data: 'Something went wrong'
+            massage: 'Something went wrong'
         })
     })
 })
