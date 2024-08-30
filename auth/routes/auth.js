@@ -1,30 +1,23 @@
 const express = require('express');
-const router = express.Router();
+const { getAuths, getAuth, createAuth, updateAuth, deleteAuth } = require('../controllers/auth');
+const advancedResults = require('../middleware/advancedResults');
 
-// @desc Register a new user
-// @route GET /Login
-// @access Public
-router.post('/register', async (req, res) => {
-    try {
-        // const products = await Product.find();
-        res.status(200).send([]);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+const auth = require('../models/auth')
 
-// @desc Get all orders for the authenticated user (JWT protected)
-// @route POST /logout
-// @access Public
-router.post('/logout', async (req, res) => {
-    const userId = req.params.id;
+const router = express.Router({ mergeParams: true });
 
-    try {
-        // const products = await Product.find();
-        res.status(200).send(userId);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+router.use(protect);
+router.use(authorize('admin'));
+
+router
+  .route('/')
+  .get(protect, authorize('admin'), advancedResults(auth), getAuths)
+  .post(protect, authorize('admin'), createAuth);
+
+router
+  .route('/:id')
+  .get(getAuth)
+  .put(protect, authorize('admin'), updateAuth)
+  .delete(protect, authorize('admin'), deleteAuth);
 
 module.exports = router;

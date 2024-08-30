@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please add a name'],
@@ -13,8 +13,8 @@ const ProductSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['product', 'publisher'],
-    default: 'product'
+    enum: ['order', 'publisher'],
+    default: 'order'
   },
   password: {
     type: String,
@@ -41,4 +41,4 @@ const ProductSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Auth', UserSchema);

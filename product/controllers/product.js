@@ -2,16 +2,16 @@ const Product = require('../models/Product');
 const asyncHandler = require('../middleware/async');
 
 // @desc      Get product data
-// @route     GET /api/v1/getUsers
+// @route     GET /api/v1/getProducts
 // @access    Private/Admin
-exports.getUsers = asyncHandler(async (req, res, next) => {
+exports.getProducts = asyncHandler(async (req, res, next) => {
     res.status(200).json(res.advancedResults);
 });
 
 // @desc      Create product
 // @route     POST /api/v1/users
 // @access    Private/Admin
-exports.createUser = asyncHandler(async (req, res, next) => {
+exports.createProduct = asyncHandler(async (req, res, next) => {
     const product = await Product.create(req.body);
 
     res.status(201).json({
@@ -21,9 +21,9 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc      Get users list
-// @route     GET /api/v1/getUsers
+// @route     GET /api/v1/getProducts
 // @access    Private/Admin
-exports.getUser = asyncHandler(async (req, res, next) => {
+exports.getProduct = asyncHandler(async (req, res, next) => {
     const users = await Product.findOne(rq.params.id);
     res.status(200).json({
         success: true,
@@ -39,7 +39,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 // @desc      Update product
 // @route     PUT /api/v1/product
 // @access    Private/Admin
-exports.updateUser = asyncHandler(async (req, res, next) => {
+exports.updateProduct = asyncHandler(async (req, res, next) => {
     const product = Product.findOne(req.params.id);
 
     if (!product) {
@@ -71,7 +71,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 // @desc      Delete product
 // @route     DELETE /api/v1/product
 // @access    Private/Admin
-exports.deleteUser = asyncHandler(async (req, res, next) => {
+exports.deleteProduct = asyncHandler(async (req, res, next) => {
     const product = Product.findByIdAndDelete(req.params.id);
 
     if (!product) {

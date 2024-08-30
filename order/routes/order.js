@@ -1,30 +1,23 @@
 const express = require('express');
-const router = express.Router();
+const { getUsers, getUser, createUser, updateUser, deleteUser } = require('../controllers/order');
+const advancedResults = require('../middleware/advancedResults');
 
-// @desc Get all orders for the authenticated user (JWT protected)
-// @route GET /api/v1/todos
-// @access Public
-router.get('/orders', async (req, res) => {
-    try {
-        // const products = await Product.find();
-        res.status(200).send([]);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+const Auth = require('../models/Order')
 
-// @desc Create a new order (JWT protected)
-// @route POST /orders
-// @access Public
-router.post('/orders', async (req, res) => {
-    const userId = req.params.id;
+const router = express.Router({ mergeParams: true });
 
-    try {
-        // const products = await Product.find();
-        res.status(200).send(userId);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-})
+router.use(protect);
+router.use(authorize('admin'));
+
+router
+  .route('/')
+  .get(protect, authorize('admin'), advancedResults(Auth), getUsers)
+  .post(protect, authorize('admin'), createUser);
+
+router
+  .route('/:id')
+  .get(getUser)
+  .put(protect, authorize('admin'), updateUser)
+  .delete(protect, authorize('admin'), deleteUser);
 
 module.exports = router;
