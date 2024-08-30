@@ -6,10 +6,18 @@ const User = require('../models/user')
 
 const router = express.Router({ mergeParams: true });
 
-// router.use(protect);
-// router.use(authorize('admin'));
+router.use(protect);
+router.use(authorize('admin'));
 
-router.route('/user').get(advancedResults(User), getUsers).post(createUser)
-router.route('/user/:id').get(getUser).put(updateUser).delete(deleteUser)
+router
+  .route('/')
+  .get(protect,authorize('admin'),advancedResults(User), getUsers)
+  .post(protect,authorize('admin'),createUser);
+
+router
+  .route('/:id')
+  .get(getUser)
+  .put(protect,authorize('admin'),updateUser)
+  .delete(protect,authorize('admin'),deleteUser);
 
 module.exports = router;
