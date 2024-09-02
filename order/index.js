@@ -16,7 +16,6 @@ const connectDB = require('./config/db');
 
 // Route files
 const order = require('./routes/order');
-const connectDB = require('./config/db');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });

@@ -12,11 +12,13 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const errorHandler = require('./middleware/error');
+
+// database config files
 const connectDB = require('./config/db');
 
 // Route files
 const product = require('./routes/product');
-const connectDB = require('./config/db');
+const { default: mongoose } = require('mongoose');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });

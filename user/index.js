@@ -12,11 +12,12 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const errorHandler = require('./middleware/error');
+
+// database config files
 const connectDB = require('./config/db');
 
 // Route files
 const user = require('./routes/user');
-const connectDB = require('./config/db');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });

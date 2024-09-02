@@ -1,7 +1,4 @@
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('./async');
-const ErrorResponse = require('../utils/errorResponse');
-const Product = require('../models/Product');
+const asyncHandler = require("./async");
 
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -11,42 +8,27 @@ exports.protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
-    // Set token from Bearer token in header
     token = req.headers.authorization.split(' ')[1];
-    // Set token from cookie
+  } else if (req.cookies.token) {
+    token = req.cookies.token;
   }
-  // else if (req.cookies.token) {
-  //   token = req.cookies.token;
-  // }
 
-  // Make sure token exists
   if (!token) {
     return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 
   try {
-    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    console.log('Decoded JWT:', decoded); // Debugging line
     req.product = await Product.findById(decoded.id);
+
+    if (!req.product) {
+      return next(new ErrorResponse('No product found with this ID', 404));
+    }
 
     next();
   } catch (err) {
+    console.error('JWT verification error:', err); // Debugging line
     return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 });
-
-// Grant access to specific roles
-exports.authorize = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.product.role)) {
-      return next(
-        new ErrorResponse(
-          `Product role ${req.product.role} is not authorized to access this route`,
-          403
-        )
-      );
-    }
-    next();
-  };
-};
