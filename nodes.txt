@@ -1,0 +1,2 @@
+// for install and config psql
+docker pull postgres:latest

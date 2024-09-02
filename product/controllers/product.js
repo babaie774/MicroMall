@@ -5,6 +5,7 @@ const asyncHandler = require('../middleware/async');
 // @route     GET /api/v1/getProducts
 // @access    Private/Admin
 exports.getProducts = asyncHandler(async (req, res, next) => {
+    // TODO: implement pagination
     res.status(200).json(res.advancedResults);
 });
 
@@ -24,11 +25,11 @@ exports.createProduct = asyncHandler(async (req, res, next) => {
 // @route     GET /api/v1/getProducts
 // @access    Private/Admin
 exports.getProduct = asyncHandler(async (req, res, next) => {
-    const users = await Product.findOne(rq.params.id);
+    const users = await Product.findOne({ _id: req.params.id });
     res.status(200).json({
         success: true,
-        count: users.length,
-        data: users
+        count: users?.length,
+        data: users || []
     });
 
     next(err => {
@@ -40,7 +41,7 @@ exports.getProduct = asyncHandler(async (req, res, next) => {
 // @route     PUT /api/v1/product
 // @access    Private/Admin
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-    const product = Product.findOne(req.params.id);
+    const product = Product.findOne({ _id: req.params.id });
 
     if (!product) {
         res.status(404).json({
@@ -72,7 +73,9 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 // @route     DELETE /api/v1/product
 // @access    Private/Admin
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
-    const product = Product.findByIdAndDelete(req.params.id);
+    const product = await Product.findByIdAndDelete({ _id: req.params.id });
+
+    // const product = Product.findByIdAndDelete(req.params.id);
 
     if (!product) {
         res.status(404).json({

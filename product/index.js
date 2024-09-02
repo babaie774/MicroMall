@@ -74,7 +74,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-
 app.use('/', product);
 
 app.use(errorHandler);

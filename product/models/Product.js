@@ -1,44 +1,58 @@
+// product-service/models/productModel.js
 const mongoose = require('mongoose');
 
-const ProductSchema = new mongoose.Schema({
+// Define the schema
+const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please add a name'],
+    required: true,
+    trim: true
   },
-  email: {
+  description: {
     type: String,
-    required: [true, 'Please add an email'],
-    unique: true,
-    match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please add a valid email']
+    required: true,
+    trim: true
   },
-  role: {
+  price: {
+    type: Number,
+    required: true,
+    min: [0, 'Price must be a positive number']
+  },
+  stock: {
+    type: Number,
+    required: true,
+    min: [0, 'Stock must be a positive number']
+  },
+  category: {
     type: String,
-    enum: ['product', 'publisher'],
-    default: 'product'
+    required: true,
+    trim: true
   },
-  password: {
+  images: [{
     type: String,
-    required: [true, 'Please add a password'],
-    minlength: 6,
-    select: false
+    trim: true
+  }],
+  attributes: {
+    type: Map,
+    of: String
   },
-  resetPasswordToken: String,
-  resetPasswordExpire: Date,
-  confirmEmailToken: String,
-  isEmailConfirm: {
-    type: Boolean,
-    default: false,
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
-  twoFactorCode: String,
-  twoFactorCodeExpire: Date,
-  twoFactorEnable: {
-    type: Boolean,
-    default: false,
-  },
-  createAt: {
+  updatedAt: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = mongoose.model('Product', ProductSchema);
+// Middleware to update `updatedAt` field on save
+productSchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+// Create the model
+const Product = mongoose.model('Product', productSchema);
+
+module.exports = Product;
