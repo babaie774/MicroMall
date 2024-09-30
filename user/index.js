@@ -18,6 +18,7 @@ const connectDB = require('./config/db');
 
 // Route files
 const user = require('./routes/user');
+const { default: mongoose } = require('mongoose');
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
