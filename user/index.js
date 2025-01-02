@@ -24,7 +24,7 @@ const { default: mongoose } = require('mongoose');
 dotenv.config({ path: './config/config.env' });
 
 // Connect to database
-connectDB();
+connectDB({ mongoURL: process.env.MONGO_URI });
 
 const app = express();
 const PORT = process.env.PORT || 3003;
@@ -35,7 +35,9 @@ app.use(express.json());
 // Cookie parser
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGO_URI, {})
+console.log(process.env.MONGO_URI);
+
+mongoose.connect(process.env.mongoURL, {})
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB...', err));
 
@@ -74,7 +76,6 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount routers
-
 app.use('/', user);
 
 app.use(errorHandler);

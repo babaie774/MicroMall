@@ -5,6 +5,10 @@ const colors = require('colors');
 const dotenv = require('dotenv');
 const User = require('./model/User')
 
+
+dotenv.config({ path: './config/config.env' });
+console.log(process.env.MONGO_URI)
+
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -13,7 +17,7 @@ mongoose.connect(process.env.MONGO_URL, {
 })
 
 const users = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/users.json`,'utf-8')
+    fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
 )
 
 
@@ -25,7 +29,7 @@ const importData = async () => {
     } catch (err) {
         console.log(err)
     }
-} 
+}
 
 const deleteData = async () => {
     try {
